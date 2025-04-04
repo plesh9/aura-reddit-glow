@@ -8,56 +8,56 @@ const subreddits = [
     name: "r/aww",
     description: "A subreddit for cute and cuddly pictures",
     members: "30.2M",
-    image: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1618826411640-d6df44dd3f7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     gradient: "from-reddit-orange to-reddit-orangeDark"
   },
   {
     name: "r/worldnews",
     description: "A place for major news from around the world",
     members: "31.4M",
-    image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     gradient: "from-reddit-orangeDark to-reddit-red"
   },
   {
     name: "r/music",
     description: "The musical community of Reddit",
     members: "32.3M",
-    image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1599467556385-48b57868f038?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     gradient: "from-reddit-orange to-reddit-orangeLight"
   },
   {
     name: "r/movies",
     description: "News and discussions about movies",
     members: "29.7M",
-    image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1585951237318-9ea5e175b891?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     gradient: "from-reddit-orangeLight to-reddit-orange"
   },
   {
     name: "r/science",
     description: "The latest scientific breakthroughs",
     members: "30.4M",
-    image: "https://images.unsplash.com/photo-1564325724739-bae0bd08762c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     gradient: "from-reddit-red to-reddit-orange"
   },
   {
     name: "r/technology",
     description: "For news and discussions about technology",
     members: "15.8M",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1535378620166-273708d44e4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     gradient: "from-reddit-orange to-reddit-orangeDark"
   },
   {
     name: "r/books",
     description: "Book discussions and recommendations",
     members: "22.1M",
-    image: "https://images.unsplash.com/photo-1513001900722-370f803f498d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1524578271613-d550eacf6090?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     gradient: "from-reddit-orangeLight to-reddit-orange"
   },
   {
     name: "r/Art",
     description: "This is a subreddit about art",
     members: "23.5M",
-    image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     gradient: "from-reddit-orange to-reddit-orangeLight"
   }
 ];
@@ -90,7 +90,7 @@ export const SubredditsSection = () => {
             setTimeout(() => {
               entry.target.classList.add('animate');
               
-              // Add parallax effect for images when cards become visible
+              // Add parallax effect for images
               const img = entry.target.querySelector('img');
               if (img) {
                 img.style.transform = 'scale(1.01)';
@@ -110,29 +110,72 @@ export const SubredditsSection = () => {
       }
     });
     
-    // Mouse movement parallax effect
+    // Enhanced 3D perspective on mouse movement
     const handleMouseMove = (e: MouseEvent) => {
       cardsRef.current.forEach((card) => {
         if (!card) return;
         
         const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const offsetX = (x - centerX) / 30;
-        const offsetY = (y - centerY) / 30;
+        if (
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom
+        ) {
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const percentX = (x - centerX) / centerX;
+          const percentY = (y - centerY) / centerY;
+          
+          const intensity = 15; // Adjust for stronger or weaker effect
+          card.style.transform = `perspective(1000px) rotateY(${percentX * intensity}deg) rotateX(${-percentY * intensity}deg) scale3d(1.05, 1.05, 1.05)`;
+          
+          // Add shadow effect based on perspective
+          card.style.boxShadow = `
+            ${-percentX * 20}px ${-percentY * 20}px 30px rgba(0,0,0,0.2),
+            inset 0 0 0 1px rgba(255, 255, 255, ${0.05 + Math.abs(percentX) * 0.05})
+          `;
+          
+          // Move image in parallax
+          const img = card.querySelector('img');
+          if (img) {
+            (img as HTMLElement).style.transform = `scale(1.1) translate(${-percentX * 10}px, ${-percentY * 10}px)`;
+          }
+          
+          // Add shine effect
+          const shine = card.querySelector('.card-shine') as HTMLElement;
+          if (shine) {
+            shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 80%)`;
+            shine.style.opacity = '1';
+          }
+        }
+      });
+    };
+    
+    const handleMouseLeave = () => {
+      cardsRef.current.forEach((card) => {
+        if (!card) return;
+        card.style.transform = '';
+        card.style.boxShadow = '';
         
         const img = card.querySelector('img');
-        if (img && card.matches(':hover')) {
-          img.style.transform = `scale(1.1) translate(${-offsetX}px, ${-offsetY}px)`;
+        if (img) {
+          (img as HTMLElement).style.transform = 'scale(1)';
+        }
+        
+        const shine = card.querySelector('.card-shine') as HTMLElement;
+        if (shine) {
+          shine.style.opacity = '0';
         }
       });
     };
     
     document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
     
     return () => {
       if (sectionRef.current) {
@@ -144,18 +187,19 @@ export const SubredditsSection = () => {
         }
       });
       document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
   
   return (
     <section id="subreddits" ref={sectionRef} className="py-24 relative noise-bg overflow-hidden section-animate">
-      {/* Enhanced background gradient blobs with animations */}
-      <div className="absolute bottom-0 right-0 w-[700px] h-[700px] bg-reddit-orange/10 rounded-full filter blur-[150px] opacity-40 animate-pulse"></div>
-      <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-reddit-orangeLight/15 rounded-full filter blur-[130px] opacity-30 animate-pulse" style={{ animationDelay: "1.5s" }}></div>
+      {/* Premium background elements */}
+      <div className="absolute -bottom-[300px] -right-[300px] w-[800px] h-[800px] rounded-full bg-gradient-to-br from-reddit-orange/10 to-transparent filter blur-[150px] opacity-40"></div>
+      <div className="absolute -top-[200px] -left-[200px] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-reddit-orangeLight/15 to-transparent filter blur-[130px] opacity-30"></div>
       
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Find Your <span className="text-gradient">Subreddit</span></h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">Find Your <span className="text-gradient bg-gradient-to-r from-reddit-orange via-reddit-orangeLight to-reddit-orange">Subreddit</span></h2>
           <p className="text-foreground/70 max-w-2xl mx-auto">Discover communities that match your interests, passions, and curiosities.</p>
         </div>
         
@@ -164,14 +208,17 @@ export const SubredditsSection = () => {
             <div 
               key={index}
               ref={el => cardsRef.current[index] = el}
-              className="stagger-item rounded-xl overflow-hidden group relative hover:scale-[1.02] transition-all duration-500"
+              className="stagger-item rounded-xl overflow-hidden relative transition-all duration-500 card-3d will-change-transform"
               style={{ transformStyle: 'preserve-3d' }}
             >
-              {/* Overlay with improved glassmorphism effect */}
+              {/* Card shine effect overlay */}
+              <div className="card-shine absolute inset-0 opacity-0 transition-opacity duration-500 z-10 pointer-events-none"></div>
+              
+              {/* High-quality overlay with refined glassmorphism */}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10"></div>
               
-              {/* Gradient overlay with improved animation */}
-              <div className={`absolute inset-0 bg-gradient-to-tr ${subreddit.gradient} opacity-40 group-hover:opacity-60 transition-opacity duration-500 z-0`}></div>
+              {/* Premium gradient overlay */}
+              <div className={`absolute inset-0 bg-gradient-to-tr ${subreddit.gradient} opacity-40 transition-opacity duration-500 z-0`}></div>
               
               {/* Inner glow on hover */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-5" 
@@ -181,22 +228,22 @@ export const SubredditsSection = () => {
                    }}>
               </div>
               
-              {/* Image with enhanced parallax effect */}
+              {/* High-quality optimized image */}
               <img 
                 src={subreddit.image} 
                 alt={subreddit.name} 
-                className="w-full h-64 object-cover transition-all duration-700 group-hover:scale-110 z-0"
+                className="w-full h-64 object-cover transition-all duration-700 will-change-transform"
                 loading="lazy"
               />
               
-              {/* Content with improved glassmorphism */}
-              <div className="absolute inset-x-0 bottom-0 p-5 z-20 backdrop-blur-sm bg-black/20 group-hover:backdrop-blur-md transition-all duration-300">
+              {/* Premium glassmorphism content panel */}
+              <div className="absolute inset-x-0 bottom-0 p-5 z-20 backdrop-blur-md bg-black/30 border-t border-white/10 transition-all duration-300">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-xl font-bold text-white group-hover:text-gradient-orange transition-all duration-300">{subreddit.name}</h3>
-                  <span className="bg-white/20 text-white text-xs px-2 py-1 rounded-full group-hover:bg-white/30 transition-all duration-300">{subreddit.members}</span>
+                  <span className="bg-white/20 text-white text-xs px-2 py-1 rounded-full transition-all duration-300">{subreddit.members}</span>
                 </div>
-                <p className="text-white/80 text-sm mb-3 group-hover:text-white/90 transition-all duration-300">{subreddit.description}</p>
-                <Button variant="outline" size="sm" className="w-full justify-center border-white/20 bg-black/30 hover:bg-white/10 transition-all duration-300 group-hover:border-white/40">
+                <p className="text-white/80 text-sm mb-3 transition-all duration-300">{subreddit.description}</p>
+                <Button variant="outline" size="sm" className="w-full justify-center border-white/20 backdrop-blur-sm bg-black/30 hover:bg-white/10 transition-all duration-300 hover:border-white/40">
                   Join Community
                 </Button>
               </div>
@@ -205,9 +252,14 @@ export const SubredditsSection = () => {
         </div>
         
         <div className="mt-12 text-center">
-          <Button className="bg-gradient-reddit hover:brightness-110 transition-all duration-500 hover:scale-105 group glow">
-            Explore All Communities
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          <Button className="relative overflow-hidden group">
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-reddit-orange to-reddit-red transition-all duration-300 group-hover:scale-[1.05] group-active:scale-95"></span>
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-reddit-orange to-reddit-orangeDark opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+            <span className="absolute inset-0 w-full h-full bg-noise opacity-5"></span>
+            <span className="relative z-10 flex items-center px-6 py-2">
+              Explore All Communities
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </span>
           </Button>
         </div>
       </div>

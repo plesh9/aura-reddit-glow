@@ -19,11 +19,19 @@ const Index = () => {
     // Set loaded state
     setIsLoaded(true);
     
-    // Add intersection observer for scroll animations with enhanced parameters
+    // Enhanced intersection observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-in');
+          
+          // Handle staggered animation for child elements
+          const staggerItems = entry.target.querySelectorAll('.stagger-item');
+          staggerItems.forEach((item, index) => {
+            setTimeout(() => {
+              item.classList.add('animate');
+            }, index * 100);
+          });
           
           // Once the animation is complete, disconnect to improve performance
           setTimeout(() => {
@@ -32,7 +40,7 @@ const Index = () => {
         }
       });
     }, { 
-      threshold: 0.15,
+      threshold: 0.1,
       rootMargin: '0px 0px -10% 0px'
     });
     
@@ -54,45 +62,90 @@ const Index = () => {
     
     window.addEventListener('scroll', handleScroll);
     
-    // Add smooth parallax scroll effect
-    const handleParallax = () => {
-      const scrolled = window.scrollY;
+    // Initialize cursor effect for enhanced interactivity
+    const initCursorEffect = () => {
+      const cursor = document.createElement('div');
+      cursor.className = 'custom-cursor';
+      cursor.style.cssText = `
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 69, 0, 0.3);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 9999;
+        transition: width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
+        backdrop-filter: blur(4px);
+      `;
+      document.body.appendChild(cursor);
       
-      document.querySelectorAll('.parallax').forEach((element) => {
-        const speed = element.getAttribute('data-speed') || '0.1';
-        const direction = element.getAttribute('data-direction') || '1';
-        const offset = scrolled * parseFloat(speed) * parseInt(direction);
+      const cursorDot = document.createElement('div');
+      cursorDot.className = 'cursor-dot';
+      cursorDot.style.cssText = `
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background-color: #FF4500;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 10000;
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+      `;
+      document.body.appendChild(cursorDot);
+      
+      document.addEventListener('mousemove', (e) => {
+        // Use requestAnimationFrame for smoother animations
+        requestAnimationFrame(() => {
+          cursor.style.left = `${e.clientX}px`;
+          cursor.style.top = `${e.clientY}px`;
+          
+          cursorDot.style.left = `${e.clientX}px`;
+          cursorDot.style.top = `${e.clientY}px`;
+        });
+      });
+      
+      // Scale effect on interactive elements
+      document.querySelectorAll('a, button, .interactive').forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+          cursor.style.width = '60px';
+          cursor.style.height = '60px';
+          cursor.style.backgroundColor = 'rgba(255, 69, 0, 0.1)';
+          cursor.style.borderColor = 'rgba(255, 69, 0, 0.5)';
+          
+          cursorDot.style.width = '10px';
+          cursorDot.style.height = '10px';
+        });
         
-        // Fix: Cast Element to HTMLElement to access style property
-        const htmlElement = element as HTMLElement;
-        htmlElement.style.transform = `translateY(${offset}px)`;
+        el.addEventListener('mouseleave', () => {
+          cursor.style.width = '40px';
+          cursor.style.height = '40px';
+          cursor.style.backgroundColor = 'transparent';
+          cursor.style.borderColor = 'rgba(255, 69, 0, 0.3)';
+          
+          cursorDot.style.width = '8px';
+          cursorDot.style.height = '8px';
+        });
       });
     };
     
-    window.addEventListener('scroll', handleParallax);
-    
-    // Preload critical images for better performance
-    const preloadImages = () => {
-      const imageUrls = [
-        // Add your important image URLs here
-        "https://images.unsplash.com/photo-1543852786-1cf6624b9987",
-        "https://images.unsplash.com/photo-1495020689067-958852a7765e"
-      ];
-      
-      imageUrls.forEach(url => {
-        const img = new Image();
-        img.src = url;
-      });
-    };
-    
-    preloadImages();
+    // Only activate custom cursor on non-touch devices
+    if (window.matchMedia("(pointer: fine)").matches) {
+      initCursorEffect();
+    }
     
     return () => {
       document.querySelectorAll('.section-animate').forEach((section) => {
         observer.unobserve(section);
       });
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('scroll', handleParallax);
+      
+      // Clean up cursor elements
+      const cursor = document.querySelector('.custom-cursor');
+      const cursorDot = document.querySelector('.cursor-dot');
+      if (cursor) document.body.removeChild(cursor);
+      if (cursorDot) document.body.removeChild(cursorDot);
     };
   }, []);
 

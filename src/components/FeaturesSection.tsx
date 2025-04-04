@@ -7,11 +7,10 @@ type FeatureCardProps = {
   title: string;
   description: string;
   gradient: string;
-  delay: string;
   index: number;
 };
 
-const FeatureCard = ({ icon, title, description, gradient, delay, index }: FeatureCardProps) => {
+const FeatureCard = ({ icon, title, description, gradient, index }: FeatureCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -32,10 +31,41 @@ const FeatureCard = ({ icon, title, description, gradient, delay, index }: Featu
     if (cardRef.current) {
       observer.observe(cardRef.current);
     }
+
+    // Add mouse movement interaction for cards
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!cardRef.current) return;
+      
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = (y - centerY) / 20;
+      const rotateY = (centerX - x) / 20;
+      
+      cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    };
+    
+    const handleMouseLeave = () => {
+      if (!cardRef.current) return;
+      cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+    };
+    
+    const card = cardRef.current;
+    if (card) {
+      card.addEventListener('mousemove', handleMouseMove);
+      card.addEventListener('mouseleave', handleMouseLeave);
+    }
     
     return () => {
       if (cardRef.current) {
         observer.unobserve(cardRef.current);
+      }
+      if (card) {
+        card.removeEventListener('mousemove', handleMouseMove);
+        card.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
   }, [index]);
@@ -43,10 +73,13 @@ const FeatureCard = ({ icon, title, description, gradient, delay, index }: Featu
   return (
     <div 
       ref={cardRef}
-      className="p-6 rounded-xl glass border-white/10 hover:border-white/20 transition-all duration-300 hover:translate-y-[-5px] stagger-item"
+      className="p-6 rounded-xl neo-glass border-white/10 transition-all duration-500 hover:border-white/20 stagger-item"
+      style={{ transformStyle: 'preserve-3d', transform: 'perspective(1000px)' }}
     >
-      <div className={`w-12 h-12 rounded-lg ${gradient} flex items-center justify-center mb-4`}>
+      <div className={`w-12 h-12 rounded-lg ${gradient} flex items-center justify-center mb-4 relative`}>
+        <div className="absolute inset-0 rounded-lg bg-noise opacity-10"></div>
         {icon}
+        <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
       </div>
       <h3 className="text-xl font-bold mb-2">{title}</h3>
       <p className="text-foreground/70">{description}</p>
@@ -84,55 +117,49 @@ export const FeaturesSection = () => {
       icon: <Users className="text-white" size={24} />,
       title: "Vibrant Communities",
       description: "Find your people with thousands of communities for every interest, hobby and passion.",
-      gradient: "bg-gradient-reddit",
-      delay: "0.1s"
+      gradient: "bg-gradient-to-br from-reddit-orange to-reddit-orangeDark",
     },
     {
       icon: <MessageSquare className="text-white" size={24} />,
       title: "Authentic Discussions",
       description: "Engage in real conversations with people who share your interests.",
-      gradient: "bg-gradient-reddit-orange",
-      delay: "0.2s"
+      gradient: "bg-gradient-to-br from-reddit-orangeLight to-reddit-orange",
     },
     {
       icon: <TrendingUp className="text-white" size={24} />,
       title: "Discover What's Trending",
       description: "Stay updated with the latest trends, news, and viral content from around the world.",
-      gradient: "bg-gradient-reddit-warm",
-      delay: "0.3s"
+      gradient: "bg-gradient-to-br from-reddit-orange to-reddit-red",
     },
     {
       icon: <Globe className="text-white" size={24} />,
       title: "Global Perspectives",
       description: "Connect with users worldwide and broaden your understanding of diverse viewpoints.",
-      gradient: "bg-gradient-reddit-warm",
-      delay: "0.4s"
+      gradient: "bg-gradient-to-br from-reddit-red to-reddit-orange",
     },
     {
       icon: <ShieldCheck className="text-white" size={24} />,
       title: "Safe Environment",
       description: "Community-focused moderation that keeps conversations constructive and respectful.",
-      gradient: "bg-gradient-reddit-orange",
-      delay: "0.5s"
+      gradient: "bg-gradient-to-br from-reddit-orangeLight to-reddit-orange",
     },
     {
       icon: <Zap className="text-white" size={24} />,
       title: "Personalized Feed",
       description: "Your home feed evolves as you engage, delivering content tailored to your interests.",
-      gradient: "bg-gradient-reddit",
-      delay: "0.6s"
+      gradient: "bg-gradient-to-br from-reddit-orange to-reddit-orangeLight",
     }
   ];
 
   return (
     <section id="features" ref={sectionRef} className="py-24 relative noise-bg overflow-hidden section-animate">
-      {/* Background gradient blobs */}
-      <div className="absolute top-1/4 left-0 w-64 h-64 bg-reddit-orange/20 rounded-full filter blur-[80px] opacity-40"></div>
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-reddit-orangeLight/20 rounded-full filter blur-[100px] opacity-30"></div>
+      {/* Enhanced background gradient elements */}
+      <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-reddit-orange/10 to-transparent filter blur-[100px] opacity-40 animate-pulse"></div>
+      <div className="absolute -bottom-40 -right-40 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-reddit-orangeLight/10 to-transparent filter blur-[120px] opacity-30 animate-pulse" style={{ animationDelay: "1.5s" }}></div>
       
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 opacity-0 animate-slide-up" style={{ animationDelay: '0.1s', animationFillMode: 'forwards' }}>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">The Front Page of <span className="text-gradient">the Internet</span></h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">The Front Page of <span className="text-gradient bg-gradient-to-r from-reddit-orange via-reddit-orangeLight to-reddit-orange">the Internet</span></h2>
           <p className="text-foreground/70 max-w-2xl mx-auto">Explore endless possibilities with Reddit's community-powered platform.</p>
         </div>
         

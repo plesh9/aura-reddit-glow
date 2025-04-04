@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -149,6 +150,29 @@
   .interactive {
     @apply transition-all duration-300 hover:scale-[1.02] active:scale-95;
   }
+  
+  /* Premium 3D card effect */
+  .card-3d {
+    @apply transition-all duration-500;
+    transform-style: preserve-3d;
+    will-change: transform, box-shadow;
+  }
+  
+  .card-3d:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 15px 30px -15px rgba(0, 0, 0, 0.4),
+      0 5px 15px -5px rgba(255, 69, 0, 0.2);
+  }
+  
+  /* Advanced glow effects */
+  .glow-text {
+    text-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
+  }
+  
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.4));
+  }
 }
 
 /* Scroll animations for elements within each section */
@@ -255,4 +279,41 @@
 
 .press-effect:active {
   transform: translateY(2px);
+}
+
+/* Premium floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Premium pulsating animation */
+@keyframes pulsate {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+}
+
+.animate-pulsate {
+  animation: pulsate 4s ease-in-out infinite;
+}
+
+/* Ensure smooth animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
