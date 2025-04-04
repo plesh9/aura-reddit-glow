@@ -40,8 +40,8 @@ const contentPreviewImages = [
   ],
   [
     "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1616588589676-62b3bd4108f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    "https://images.unsplash.com/photo-1586182987320-4f17e36750df?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+    "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   ],
   [
     "https://images.unsplash.com/photo-1516110833967-0b5716ca1387?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -200,7 +200,7 @@ export const ShowcaseSection = () => {
               {/* Content Preview with High-Quality Images */}
               <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[0, 1, 2].map((i) => (
-                  <div key={i} className="bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg relative group/card">
+                  <div key={i} className="bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg overflow-hidden relative group/card">
                     <div className="w-full h-24 bg-white/5 rounded-md mb-3 overflow-hidden">
                       <img 
                         src={contentPreviewImages[index][i]} 
@@ -210,8 +210,12 @@ export const ShowcaseSection = () => {
                       />
                       <div className="absolute inset-0 opacity-0 bg-gradient-to-t from-black/40 to-transparent group-hover/card:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    <div className="h-4 bg-white/10 rounded w-3/4 mb-2 group-hover:bg-gradient-to-r from-reddit-orange/40 to-reddit-orangeLight/20 transition-all duration-300"></div>
-                    <div className="h-3 bg-white/10 rounded w-1/2 group-hover:bg-gradient-to-r from-reddit-orange/30 to-reddit-orangeLight/10 transition-all duration-300"></div>
+                    <div className="text-white text-lg font-semibold mb-2  transition-all duration-300">
+        {item.title}
+      </div>
+      <div className="text-white/70 text-sm mb-4  transition-all duration-300">
+        {item.description} {/* Це може бути короткий опис або інший текст */}
+      </div>
                   </div>
                 ))}
               </div>
