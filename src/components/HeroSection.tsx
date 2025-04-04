@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -85,32 +85,6 @@ export const HeroSection = () => {
           <Button variant="outline" className="w-full sm:w-auto text-base px-8 py-6 border-white/20 hover:bg-white/5 transition-all duration-300">
             Explore Communities
           </Button>
-        </div>
-        
-        <div className="mt-16 opacity-0 animate-slide-up hero-animate" style={{ animationDelay: '0.8s', animationFillMode: 'forwards' }}>
-          <p className="text-sm text-foreground/60 mb-3">Trusted by millions worldwide</p>
-          <div className="flex flex-wrap items-center justify-center gap-8">
-            <div className="h-8 w-32 glass rounded-md flex items-center justify-center group hover:border-white/30 transition-all duration-300">
-              <span className="text-white/70 group-hover:text-white transition-colors duration-300">TIME</span>
-            </div>
-            <div className="h-8 w-32 glass rounded-md flex items-center justify-center group hover:border-white/30 transition-all duration-300">
-              <span className="text-white/70 group-hover:text-white transition-colors duration-300">Forbes</span>
-            </div>
-            <div className="h-8 w-32 glass rounded-md flex items-center justify-center group hover:border-white/30 transition-all duration-300">
-              <span className="text-white/70 group-hover:text-white transition-colors duration-300">TechCrunch</span>
-            </div>
-            <div className="h-8 w-32 glass rounded-md flex items-center justify-center group hover:border-white/30 transition-all duration-300">
-              <span className="text-white/70 group-hover:text-white transition-colors duration-300">The Verge</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Perfectly centered Scroll indicator with enhanced animation */}
-      <div className="absolute bottom-10 left-0 right-0 flex flex-col items-center justify-center opacity-0 animate-slide-up hero-animate" style={{ animationDelay: '1s', animationFillMode: 'forwards' }}>
-        <span className="text-sm text-foreground/60 mb-2">Scroll to explore</span>
-        <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/20 pulse-down group hover:border-white/50 hover:bg-white/5 transition-all duration-300">
-          <ChevronDown className="w-5 h-5 text-white/60 group-hover:text-white/90 transition-colors duration-300" />
         </div>
       </div>
     </section>
