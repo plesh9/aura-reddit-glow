@@ -63,7 +63,9 @@ const Index = () => {
         const direction = element.getAttribute('data-direction') || '1';
         const offset = scrolled * parseFloat(speed) * parseInt(direction);
         
-        element.style.transform = `translateY(${offset}px)`;
+        // Fix: Cast Element to HTMLElement to access style property
+        const htmlElement = element as HTMLElement;
+        htmlElement.style.transform = `translateY(${offset}px)`;
       });
     };
     
