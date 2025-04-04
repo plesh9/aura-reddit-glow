@@ -110,6 +110,7 @@ export default {
         "slide-up": "slide-up 0.5s ease-out forwards",
         "gradient-shift": "gradient-shift 6s ease infinite",
         "header-reveal": "header-reveal 0.3s ease-out",
+        'fade-in': "fade-in 0.3s ease-out",
       },
       backgroundImage: {
         "gradient-reddit": "linear-gradient(135deg, #FF4500 0%, #FF8C5A 100%)",
