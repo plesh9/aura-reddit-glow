@@ -32,8 +32,8 @@ export default {
         reddit: {
           orange: "#FF4500",
           orangeLight: "#FF8C5A",
-          blue: "#0079D3",
-          purple: "#7E53C1",
+          orangeDark: "#E03D00",
+          red: "#FF2B00",
           dark: "#0D1117",
           darker: "#161B22",
         },
@@ -97,6 +97,10 @@ export default {
           "50%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" },
         },
+        "header-reveal": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -105,11 +109,12 @@ export default {
         "float": "float 6s ease-in-out infinite",
         "slide-up": "slide-up 0.5s ease-out forwards",
         "gradient-shift": "gradient-shift 6s ease infinite",
+        "header-reveal": "header-reveal 0.3s ease-out",
       },
       backgroundImage: {
         "gradient-reddit": "linear-gradient(135deg, #FF4500 0%, #FF8C5A 100%)",
-        "gradient-reddit-blue": "linear-gradient(135deg, #FF4500 0%, #0079D3 100%)",
-        "gradient-reddit-purple": "linear-gradient(135deg, #FF4500 0%, #7E53C1 100%)",
+        "gradient-reddit-orange": "linear-gradient(135deg, #FF4500 0%, #FF7A40 100%)",
+        "gradient-reddit-warm": "linear-gradient(135deg, #FF4500 0%, #FF2B00 100%)",
         "noise": "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=')",
       },
     },

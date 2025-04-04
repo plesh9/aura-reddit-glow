@@ -1,19 +1,44 @@
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 
 export const CtaSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  useEffect(() => {
+    // Add IntersectionObserver for section animation
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          sectionRef.current?.classList.add('animate-in');
+          sectionObserver.unobserve(entries[0].target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    
+    if (sectionRef.current) {
+      sectionObserver.observe(sectionRef.current);
+    }
+    
+    return () => {
+      if (sectionRef.current) {
+        sectionObserver.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section id="cta" className="py-24 relative noise-bg overflow-hidden">
+    <section id="cta" ref={sectionRef} className="py-24 relative noise-bg overflow-hidden section-animate">
       {/* Background gradient blobs */}
       <div className="absolute top-0 left-1/3 w-[800px] h-[800px] bg-reddit-orange/15 rounded-full filter blur-[120px] opacity-60"></div>
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-reddit-purple/20 rounded-full filter blur-[150px] opacity-40"></div>
+      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-reddit-orangeLight/20 rounded-full filter blur-[150px] opacity-40"></div>
       
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-12 relative">
           {/* Subtle glow effect */}
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-reddit-orange/30 to-reddit-purple/30 opacity-30 blur-2xl rounded-2xl"></div>
+          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-reddit-orange/30 to-reddit-orangeLight/30 opacity-30 blur-2xl rounded-2xl"></div>
           
           <div className="text-center mb-8 opacity-0 animate-slide-up" style={{ animationDelay: '0.1s', animationFillMode: 'forwards' }}>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to join the <span className="text-gradient">conversation</span>?</h2>
@@ -36,7 +61,13 @@ export const CtaSection = () => {
               "I've found communities for everything from gardening to astronomy. Reddit has become my daily destination for both learning and entertainment."
             </blockquote>
             <div className="mt-4 flex items-center">
-              <div className="w-10 h-10 rounded-full bg-white/10"></div>
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" 
+                  alt="Reddit user"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="ml-3">
                 <p className="font-medium">u/reddituser123</p>
                 <p className="text-sm text-foreground/60">Community member since 2018</p>

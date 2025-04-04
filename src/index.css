@@ -19,7 +19,7 @@
     --primary: 16 100% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 44% 54%;
+    --secondary: 16 100% 45%;
     --secondary-foreground: 0 0% 98%;
 
     --muted: 210 29% 13%;
@@ -68,12 +68,12 @@
     @apply bg-gradient-reddit bg-clip-text text-transparent;
   }
   
-  .text-gradient-blue {
-    @apply bg-gradient-reddit-blue bg-clip-text text-transparent;
+  .text-gradient-orange {
+    @apply bg-gradient-reddit-orange bg-clip-text text-transparent;
   }
   
-  .text-gradient-purple {
-    @apply bg-gradient-reddit-purple bg-clip-text text-transparent;
+  .text-gradient-warm {
+    @apply bg-gradient-reddit-warm bg-clip-text text-transparent;
   }
   
   .glass {
@@ -83,4 +83,62 @@
   .noise-bg {
     @apply bg-reddit-dark bg-noise;
   }
+  
+  .section-animate {
+    @apply opacity-0 translate-y-8 transition-all duration-700;
+  }
+  
+  .section-animate.animate-in {
+    @apply opacity-100 translate-y-0;
+  }
+  
+  .scroll-indicator {
+    @apply animate-bounce;
+  }
+  
+  .header-scroll {
+    @apply transition-all duration-300;
+  }
+  
+  .header-scroll.scrolled {
+    @apply py-2 backdrop-blur-xl bg-reddit-dark/90 shadow-lg;
+  }
+}
+
+/* Scroll animations for elements within each section */
+.stagger-item {
+  @apply opacity-0;
+  animation: fadeInUp 0.8s ease forwards;
+  animation-play-state: paused;
+}
+
+.stagger-item.animate {
+  animation-play-state: running;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll indicator animation */
+@keyframes pulse-down {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.pulse-down {
+  animation: pulse-down 2s infinite ease-in-out;
 }

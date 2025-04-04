@@ -1,13 +1,29 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, Github, Twitter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 py-4 glass">
+    <header className={`fixed top-0 left-0 right-0 z-50 header-scroll ${isScrolled ? 'scrolled' : 'py-6'}`}>
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2">
@@ -19,6 +35,8 @@ export const Header = () => {
         <nav className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm font-medium hover:text-reddit-orange transition duration-200">Features</a>
           <a href="#showcase" className="text-sm font-medium hover:text-reddit-orange transition duration-200">Communities</a>
+          <a href="#testimonials" className="text-sm font-medium hover:text-reddit-orange transition duration-200">Testimonials</a>
+          <a href="#subreddits" className="text-sm font-medium hover:text-reddit-orange transition duration-200">Subreddits</a>
           <a href="#cta" className="text-sm font-medium hover:text-reddit-orange transition duration-200">Join Now</a>
           <div className="flex items-center gap-3">
             <a href="https://github.com/reddit" target="_blank" rel="noopener noreferrer" className="text-foreground/80 hover:text-foreground transition duration-200">
@@ -41,6 +59,7 @@ export const Header = () => {
         <button 
           className="md:hidden text-foreground"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Menu"
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -62,6 +81,20 @@ export const Header = () => {
             onClick={() => setIsMenuOpen(false)}
           >
             Communities
+          </a>
+          <a 
+            href="#testimonials" 
+            className="text-xl font-medium hover:text-reddit-orange transition duration-200"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Testimonials
+          </a>
+          <a 
+            href="#subreddits" 
+            className="text-xl font-medium hover:text-reddit-orange transition duration-200"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Subreddits
           </a>
           <a 
             href="#cta" 

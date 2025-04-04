@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 
 export const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -24,6 +24,18 @@ export const HeroSection = () => {
     if (heroElement) {
       heroElement.addEventListener('mousemove', handleMouseMove);
     }
+
+    // Add animation for initial elements
+    const animateElements = () => {
+      const elements = document.querySelectorAll('.hero-animate');
+      elements.forEach((el, index) => {
+        setTimeout(() => {
+          el.classList.add('animate');
+        }, 100 * index);
+      });
+    };
+
+    animateElements();
 
     return () => {
       if (heroElement) {
@@ -48,7 +60,7 @@ export const HeroSection = () => {
           animationDelay: '-2s'
         }}
       />
-      <div className="absolute top-[calc(50%-250px)] left-[calc(50%-250px)] w-[500px] h-[500px] rounded-full bg-reddit-purple/20 filter blur-[100px] opacity-50 animate-float"
+      <div className="absolute top-[calc(50%-250px)] left-[calc(50%-250px)] w-[500px] h-[500px] rounded-full bg-reddit-orangeLight/20 filter blur-[100px] opacity-50 animate-float"
         style={{
           transform: 'translate(calc(var(--mouse-x) * 40px), calc(var(--mouse-y) * 40px))',
           animationDelay: '-1s'
@@ -56,16 +68,16 @@ export const HeroSection = () => {
       />
       
       <div className="container relative z-10 mx-auto px-4 py-12 sm:py-16 md:py-24 text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight tracking-tighter mb-6 opacity-0 animate-slide-up" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight tracking-tighter mb-6 opacity-0 animate-slide-up hero-animate" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
           <span className="text-gradient">Dive into</span> what <br className="hidden sm:block" />
-          makes you <span className="text-gradient-blue">curious</span>
+          makes you <span className="text-gradient-orange">curious</span>
         </h1>
         
-        <p className="text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto mb-8 opacity-0 animate-slide-up" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
+        <p className="text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto mb-8 opacity-0 animate-slide-up hero-animate" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
           Join millions exploring endless communities, conversations, and connections on Reddit.
         </p>
         
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 opacity-0 animate-slide-up" style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 opacity-0 animate-slide-up hero-animate" style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
           <Button className="w-full sm:w-auto text-base px-8 py-6 bg-gradient-reddit hover:brightness-110 transition-all duration-300 hover:scale-105 glow">
             Get Started
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -75,7 +87,7 @@ export const HeroSection = () => {
           </Button>
         </div>
         
-        <div className="mt-16 opacity-0 animate-slide-up" style={{ animationDelay: '0.8s', animationFillMode: 'forwards' }}>
+        <div className="mt-16 opacity-0 animate-slide-up hero-animate" style={{ animationDelay: '0.8s', animationFillMode: 'forwards' }}>
           <p className="text-sm text-foreground/60 mb-3">Trusted by millions worldwide</p>
           <div className="flex flex-wrap items-center justify-center gap-8">
             <div className="h-8 w-32 bg-white/5 rounded-md flex items-center justify-center">
@@ -94,11 +106,11 @@ export const HeroSection = () => {
         </div>
       </div>
       
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-0 animate-slide-up" style={{ animationDelay: '1s', animationFillMode: 'forwards' }}>
+      {/* Scroll indicator - improved with animation */}
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-0 animate-slide-up hero-animate" style={{ animationDelay: '1s', animationFillMode: 'forwards' }}>
         <span className="text-sm text-foreground/60 mb-2">Scroll to explore</span>
-        <div className="w-6 h-10 border-2 border-foreground/20 rounded-full flex justify-center pt-2">
-          <div className="w-1.5 h-1.5 bg-foreground/60 rounded-full animate-[bounce_2s_infinite]"></div>
+        <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/20 pulse-down">
+          <ChevronDown className="w-5 h-5 text-white/60" />
         </div>
       </div>
     </section>
