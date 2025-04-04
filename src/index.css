@@ -62,22 +62,34 @@
   .glow::after {
     content: "";
     @apply absolute inset-0 rounded-[inherit] opacity-50 blur-[40px] -z-10 bg-gradient-reddit;
+    animation: pulse-glow 3s ease-in-out infinite alternate;
   }
   
   .text-gradient {
     @apply bg-gradient-reddit bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
   }
   
   .text-gradient-orange {
     @apply bg-gradient-reddit-orange bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
   }
   
   .text-gradient-warm {
     @apply bg-gradient-reddit-warm bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
   }
   
   .glass {
-    @apply backdrop-blur-lg bg-white/5 border border-white/10;
+    @apply backdrop-blur-lg bg-white/5 border border-white/10 transition-all duration-300;
+  }
+  
+  .glass:hover {
+    @apply border-white/20 bg-white/8;
+    box-shadow: 0 7px 20px -10px rgba(255, 69, 0, 0.3);
   }
   
   .noise-bg {
@@ -103,6 +115,41 @@
   .header-scroll.scrolled {
     @apply py-2 backdrop-blur-xl bg-reddit-dark/90 shadow-lg;
   }
+  
+  /* Enhanced neon effect */
+  .neon-border {
+    @apply relative;
+  }
+  
+  .neon-border::before {
+    content: "";
+    @apply absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300;
+    box-shadow: 0 0 15px 2px rgba(255, 69, 0, 0.7);
+  }
+  
+  .neon-border:hover::before {
+    @apply opacity-100;
+  }
+  
+  /* Enhanced glassmorphism */
+  .neo-glass {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 transition-all duration-300;
+    box-shadow: 
+      0 10px 30px -15px rgba(0, 0, 0, 0.3),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  
+  .neo-glass:hover {
+    @apply bg-white/8 border-white/20;
+    box-shadow: 
+      0 15px 40px -15px rgba(0, 0, 0, 0.4),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Enhanced interactive elements */
+  .interactive {
+    @apply transition-all duration-300 hover:scale-[1.02] active:scale-95;
+  }
 }
 
 /* Scroll animations for elements within each section */
@@ -127,7 +174,20 @@
   }
 }
 
-/* Scroll indicator animation */
+/* Enhanced animation for gradient shifts */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Scroll indicator animation - Enhanced for smoother motion */
 @keyframes pulse-down {
   0%, 100% {
     transform: translateY(0);
@@ -141,4 +201,59 @@
 
 .pulse-down {
   animation: pulse-down 2s infinite ease-in-out;
+}
+
+/* Enhanced glow animation */
+@keyframes pulse-glow {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+/* Text reveal animation */
+@keyframes text-reveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.text-reveal {
+  animation: text-reveal 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+/* Enhanced focus rings */
+:focus {
+  @apply outline-none ring-2 ring-reddit-orange/50 ring-offset-2 ring-offset-reddit-dark;
+}
+
+/* Enhanced scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-reddit-darker;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-reddit-orange/30 rounded-full hover:bg-reddit-orange/50 transition-colors;
+}
+
+/* Interactive button press effect */
+.press-effect {
+  transform: translateY(0);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.press-effect:active {
+  transform: translateY(2px);
 }
